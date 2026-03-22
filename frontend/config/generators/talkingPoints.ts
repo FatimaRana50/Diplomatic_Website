@@ -3,28 +3,39 @@ import type { GeneratorConfig } from '@/types/generator.types';
 export const talkingPointsConfig: GeneratorConfig = {
   id: 'talking-points',
   title: 'Talking Points',
-  description: 'Structured talking points for negotiations, press briefings, and meetings',
+  description: 'Structured talking points with strategic objectives, sensitive issue handling, and desired outcomes',
   icon: 'ListOrdered',
   sections: [
     {
-      id: 'context',
-      title: 'Context',
+      id: 'meeting-info',
+      title: 'Meeting Information',
       fields: [
-        { id: 'topic', type: 'text', label: 'Topic', required: true },
-        { id: 'date', type: 'date', label: 'Date' },
-        { id: 'audience', type: 'text', label: 'Audience / Setting', required: true },
-        { id: 'position', type: 'textarea', label: "Our Position / Stance", required: true, rows: 3 },
+        { id: 'meetingTitle',    type: 'text',   label: 'Meeting Title',   required: true },
+        { id: 'date',            type: 'date',   label: 'Date' },
+        { id: 'location',        type: 'text',   label: 'Location' },
+        {
+          id: 'meetingType', type: 'select', label: 'Meeting Type', required: true,
+          options: ['Bilateral', 'Multilateral', 'Courtesy Call', 'Negotiation'],
+        },
+        { id: 'yourRepresentative',       type: 'text', label: 'Your Representative',         required: true },
+        { id: 'otherPartyRepresentative', type: 'text', label: 'Other Party Representative',  required: true },
       ],
     },
     {
-      id: 'points',
-      title: 'Points',
+      id: 'content',
+      title: 'Content',
       fields: [
-        { id: 'keyArguments', type: 'multilist', label: 'Key Arguments', placeholder: 'Add argument...', required: true },
-        { id: 'supportingFacts', type: 'multilist', label: 'Supporting Facts / Data', placeholder: 'Add fact...' },
-        { id: 'concessions', type: 'textarea', label: 'Potential Concessions / Red Lines', rows: 3 },
+        { id: 'mainObjective',      type: 'textarea',  label: 'Main Objective',        required: true, rows: 3 },
+        { id: 'keyTopics',          type: 'multilist', label: 'Key Topics (up to 3)',   placeholder: 'Add topic...' },
+        { id: 'desiredOutcome',     type: 'textarea',  label: 'Desired Outcome',        required: true, rows: 3 },
+        { id: 'sensitiveIssues',    type: 'textarea',  label: 'Sensitive Issues',       rows: 3 },
+        { id: 'supportingInfo',     type: 'textarea',  label: 'Supporting Information', rows: 3 },
+        {
+          id: 'tone', type: 'select', label: 'Tone', required: true,
+          options: ['Cooperative', 'Strategic', 'Firm', 'Friendly'],
+        },
       ],
     },
   ],
-  confidentialFields: ['topic', 'position', 'keyArguments', 'supportingFacts', 'concessions'],
+  confidentialFields: ['meetingTitle', 'yourRepresentative', 'otherPartyRepresentative', 'mainObjective', 'keyTopics', 'sensitiveIssues'],
 };

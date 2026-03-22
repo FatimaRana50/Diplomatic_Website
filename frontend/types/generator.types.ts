@@ -21,10 +21,12 @@ export interface FieldConfig {
   options?: string[];      // select, multi-select
   min?: number;            // number
   max?: number;            // number
-  /** For 'conditional': which toggle field ID controls visibility */
+  /** For 'conditional': which field ID controls visibility */
   controlledBy?: string;
-  /** For 'conditional': which value of the toggle field shows this field */
+  /** For 'conditional' controlled by a toggle: show when toggle is this value */
   showWhen?: boolean;
+  /** For 'conditional' controlled by a select: show when select equals this string */
+  showWhenValue?: string;
   /** For 'conditional': the child field rendered when condition is true */
   childField?: FieldConfig;
 }

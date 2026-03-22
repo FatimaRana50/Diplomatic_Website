@@ -3,27 +3,30 @@ import type { GeneratorConfig } from '@/types/generator.types';
 export const meetingSummaryConfig: GeneratorConfig = {
   id: 'meeting-summary',
   title: 'Meeting Summary',
-  description: 'Official record of decisions and action items from diplomatic meetings',
+  description: 'Post-meeting summary with structured outcomes, discussion points, and action items',
   icon: 'FileCheck',
   sections: [
     {
       id: 'meeting-info',
       title: 'Meeting Information',
       fields: [
-        { id: 'title', type: 'text', label: 'Meeting Title', required: true },
-        { id: 'date', type: 'date', label: 'Date', required: true },
-        { id: 'attendees', type: 'multilist', label: 'Attendees', placeholder: 'Add attendee...' },
+        { id: 'meetingTitle',  type: 'text',      label: 'Meeting Title', required: true },
+        { id: 'participants',  type: 'multilist', label: 'Participants',   placeholder: 'Add participant...' },
+        { id: 'date',          type: 'date',      label: 'Date',          required: true },
+        { id: 'location',      type: 'text',      label: 'Location' },
       ],
     },
     {
-      id: 'summary',
+      id: 'summary-content',
       title: 'Summary',
       fields: [
-        { id: 'decisions', type: 'multilist', label: 'Key Decisions', placeholder: 'Add decision...', required: true },
-        { id: 'actionItems', type: 'multilist', label: 'Action Items', placeholder: 'Add action item...' },
-        { id: 'nextSteps', type: 'textarea', label: 'Next Steps', rows: 3 },
+        { id: 'purposeOfMeeting',    type: 'textarea', label: 'Purpose of Meeting',    required: true, rows: 3 },
+        { id: 'keyDiscussionPoints', type: 'textarea', label: 'Key Discussion Points', required: true, rows: 4 },
+        { id: 'importantStatements', type: 'textarea', label: 'Important Statements',  rows: 3 },
+        { id: 'outcomes',            type: 'textarea', label: 'Outcomes',              required: true, rows: 3 },
+        { id: 'additionalNotes',     type: 'textarea', label: 'Additional Notes',      rows: 3 },
       ],
     },
   ],
-  confidentialFields: ['title', 'attendees', 'decisions', 'actionItems', 'nextSteps'],
+  confidentialFields: ['meetingTitle', 'participants', 'purposeOfMeeting', 'keyDiscussionPoints', 'importantStatements', 'outcomes'],
 };

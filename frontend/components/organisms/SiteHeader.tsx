@@ -6,12 +6,6 @@ import { LogOut, LayoutDashboard, Wand2, User } from 'lucide-react';
 import { clsx } from 'clsx';
 import { toast } from 'sonner';
 import { useAuthStore } from '@/stores/authStore';
-import Button from '@/components/atoms/Button';
-
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/tone-improver', label: 'Tone Improver', icon: Wand2 },
-];
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -19,7 +13,6 @@ export default function SiteHeader() {
   const { user, isAuthenticated, clearAuth } = useAuthStore();
 
   const handleLogout = () => {
-    // Clear session cookie + in-memory store
     document.cookie = 'session=; path=/; max-age=0';
     clearAuth();
     router.push('/login');
@@ -27,7 +20,7 @@ export default function SiteHeader() {
   };
 
   const initials = user?.name
-    .split(' ')
+    ?.split(' ')
     .map((n) => n[0])
     .join('')
     .toUpperCase()
@@ -36,33 +29,43 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 w-full bg-navy-900 border-b border-navy-800 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
+
         {/* Logo */}
         <Link href="/" className="shrink-0">
           <span
             className="text-xl font-bold text-gold-400"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            DiploDocs
+            Diplomatic
           </span>
         </Link>
 
-        {/* Nav */}
-        <nav className="hidden sm:flex items-center gap-1">
-          {navLinks.map(({ href, label }) => (
+        {/* Authenticated nav */}
+        {isAuthenticated && (
+          <nav className="hidden sm:flex items-center gap-1">
             <Link
-              key={href}
-              href={href}
+              href="/"
               className={clsx(
                 'px-3 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors',
-                pathname === href
+                pathname === '/'
                   ? 'bg-navy-700 text-white'
                   : 'text-navy-200 hover:text-white hover:bg-navy-800'
               )}
             >
-              {label}
+              Home
             </Link>
-          ))}
-          {isAuthenticated && (
+            <Link
+              href="/tools/tone"
+              className={clsx(
+                'px-3 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors flex items-center gap-1.5',
+                pathname === '/tools/tone'
+                  ? 'bg-navy-700 text-white'
+                  : 'text-navy-200 hover:text-white hover:bg-navy-800'
+              )}
+            >
+              <Wand2 size={14} />
+              Tone Improver
+            </Link>
             <Link
               href="/dashboard"
               className={clsx(
@@ -75,8 +78,8 @@ export default function SiteHeader() {
               <LayoutDashboard size={14} />
               Dashboard
             </Link>
-          )}
-        </nav>
+          </nav>
+        )}
 
         {/* Auth area */}
         <div className="flex items-center gap-3 shrink-0">

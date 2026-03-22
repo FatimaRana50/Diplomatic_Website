@@ -23,8 +23,7 @@ export default function GeneratorError({
       <div>
         <h2 className="text-xl font-semibold text-navy-900 mb-2">Something went wrong</h2>
         <p className="text-text-secondary text-sm">
-          The document generator encountered an error. This may be because the backend is
-          unreachable.
+          The document generator encountered an error. Please try again.
         </p>
       </div>
       <div className="flex gap-3">

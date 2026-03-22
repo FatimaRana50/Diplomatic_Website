@@ -181,9 +181,12 @@ export default function GeneratorForm({ config }: GeneratorFormProps) {
 
       case 'conditional': {
         const controlValue = watch(field.controlledBy || '');
+        const show = field.showWhenValue !== undefined
+          ? controlValue === field.showWhenValue
+          : !!controlValue === field.showWhen;
         return (
           <div key={key} className="sm:col-span-2">
-            <ConditionalField show={!!controlValue === field.showWhen}>
+            <ConditionalField show={show}>
               {field.childField && renderField(field.childField, true)}
             </ConditionalField>
           </div>

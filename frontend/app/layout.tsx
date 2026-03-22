@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'DiploDocs — Diplomatic Document Platform',
+  title: 'Diplomatic — Document Generation Platform',
   description: 'AI-powered document generation for diplomatic professionals',
 };
 

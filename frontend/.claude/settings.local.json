@@ -4,7 +4,9 @@
       "Bash(npx tsc:*)",
       "Bash(npm run:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"chore: add .gitignore, remove backend/node_modules from tracking:*)"
+      "Bash(git commit -m \"chore: add .gitignore, remove backend/node_modules from tracking:*)",
+      "Bash(grep -r \"middleware\\\\|proxy\" E:/diplomatic/frontend/node_modules/next/dist/docs/01-app/03-api-reference/ --include=*.md -l)",
+      "Bash(node -e \"console.log\\(require\\(''./node_modules/framer-motion/package.json''\\).version\\)\")"
     ]
   }
 }
