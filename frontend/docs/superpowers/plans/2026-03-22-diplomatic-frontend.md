@@ -6,6 +6,7 @@
 
 **Architecture:** Pure Next.js 16 App Router frontend (no API routes) that talks to a separate Express backend via `NEXT_PUBLIC_API_URL`. Route groups `(auth)`, `(main)`, and `(protected)` each have their own layout. A schema-driven `<GeneratorForm>` renders all 7 document generators from config files.
 
+
 **Tech Stack:** Next.js 16.2.1, React 19, TypeScript 5, Tailwind CSS 4, Zustand 4, TanStack Query 5, react-hook-form 7, zod 3, axios 1.6, lucide-react, sonner, clsx, date-fns
 
 ---
