@@ -8,7 +8,6 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { useAuthStore } from '@/stores/authStore';
-import { MOCK_TOKEN } from '@/lib/mockData';
 import Input from '@/components/atoms/Input';
 
 const schema = z
@@ -43,15 +42,25 @@ export default function SignupPage() {
 
   const onSubmit = async (data: SignupForm) => {
     setIsLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
-    document.cookie = 'session=mock; path=/; max-age=86400';
-    setAuth(
-      { id: 'mock-user-1', name: data.name, email: data.email, role: 'user' },
-      MOCK_TOKEN
-    );
-    toast.success('Account created. Welcome to Diplomatic.');
-    router.push('/');
-    setIsLoading(false);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ name: data.name, email: data.email, password: data.password }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Registration failed');
+      document.cookie = `session=${json.token}; path=/; max-age=604800`;
+      setAuth(json.user, json.token);
+      toast.success('Account created. Welcome to Diplomatic.');
+      router.push('/');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Registration failed';
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

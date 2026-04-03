@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 import { useDocumentHistory } from '@/hooks/useDocuments';
+import { useAuthStore } from '@/stores/authStore';
 import DocumentCard from '@/components/molecules/DocumentCard';
 import Button from '@/components/atoms/Button';
-import { useExportMutation as useExport } from '@/hooks/useExport';
 
 // Skeleton row
 function SkeletonRow() {
@@ -27,8 +27,8 @@ function SkeletonRow() {
 
 export default function DashboardTable() {
   const [page, setPage] = useState(1);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const { data, isLoading, isError } = useDocumentHistory(page);
-  const { mutateAsync: downloadDocx } = useExport('docx');
 
   if (isError) {
     return (
@@ -37,6 +37,8 @@ export default function DashboardTable() {
       </div>
     );
   }
+
+  const showSkeleton = isLoading || !isAuthenticated;
 
   return (
     <div className="flex flex-col gap-4">
@@ -50,7 +52,7 @@ export default function DashboardTable() {
         </div>
 
         {/* Rows */}
-        {isLoading ? (
+        {showSkeleton ? (
           Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)
         ) : data?.data.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-3 py-16">
@@ -65,7 +67,6 @@ export default function DashboardTable() {
             <DocumentCard
               key={doc.id}
               document={doc}
-              onDownload={(id) => downloadDocx(`document-${id}`)}
             />
           ))
         )}

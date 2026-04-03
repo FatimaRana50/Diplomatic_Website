@@ -24,7 +24,7 @@ interface GeneratorFormProps {
 }
 
 export default function GeneratorForm({ config }: GeneratorFormProps) {
-  const { setFormData, isConfidentialMode, toggleConfidentialMode, isGenerating } =
+  const { isConfidentialMode, toggleConfidentialMode, isGenerating } =
     useGeneratorStore();
   const { generate } = useGenerate(config);
 
@@ -32,8 +32,7 @@ export default function GeneratorForm({ config }: GeneratorFormProps) {
     useForm({ mode: 'onBlur' });
 
   const onSubmit = (data: Record<string, unknown>) => {
-    setFormData(data);
-    generate();
+    generate(data);
   };
 
   const renderField = (field: FieldConfig, sectionSpan = false) => {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FileText, Download, Eye } from 'lucide-react';
+import { FileText, Eye } from 'lucide-react';
 import { format } from 'date-fns';
 import Badge from '@/components/atoms/Badge';
 import type { DocumentListItem } from '@/types/document.types';
@@ -16,10 +16,9 @@ const typeLabels: Record<string, string> = {
 
 interface DocumentCardProps {
   document: DocumentListItem;
-  onDownload?: (id: string) => void;
 }
 
-export default function DocumentCard({ document, onDownload }: DocumentCardProps) {
+export default function DocumentCard({ document }: DocumentCardProps) {
   const label = typeLabels[document.type] || document.type;
 
   return (
@@ -35,25 +34,13 @@ export default function DocumentCard({ document, onDownload }: DocumentCardProps
 
       <Badge variant="default">{label}</Badge>
 
-      <div className="flex items-center gap-2 shrink-0">
-        <Link
-          href={`/dashboard/${document.id}`}
-          className="p-2 rounded-[var(--radius-sm)] text-text-muted hover:text-navy-700 hover:bg-surface-2 transition-colors"
-          aria-label="View document"
-        >
-          <Eye size={16} />
-        </Link>
-        {onDownload && (
-          <button
-            type="button"
-            onClick={() => onDownload(document.id)}
-            className="p-2 rounded-[var(--radius-sm)] text-text-muted hover:text-navy-700 hover:bg-surface-2 transition-colors"
-            aria-label="Download document"
-          >
-            <Download size={16} />
-          </button>
-        )}
-      </div>
+      <Link
+        href={`/dashboard/${document.id}`}
+        className="p-2 rounded-[var(--radius-sm)] text-text-muted hover:text-navy-700 hover:bg-surface-2 transition-colors"
+        aria-label="View document"
+      >
+        <Eye size={16} />
+      </Link>
     </div>
   );
 }

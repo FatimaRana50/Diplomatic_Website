@@ -9,7 +9,6 @@ import { toast } from 'sonner';
 import { useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '@/stores/authStore';
-import { MOCK_USER, MOCK_TOKEN } from '@/lib/mockData';
 import Input from '@/components/atoms/Input';
 
 const schema = z.object({
@@ -38,14 +37,27 @@ function LoginForm() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (_data: LoginForm) => {
+  const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
-    await new Promise((r) => setTimeout(r, 700));
-    document.cookie = 'session=mock; path=/; max-age=86400';
-    setAuth(MOCK_USER, MOCK_TOKEN);
-    toast.success('Welcome back, Ambassador.');
-    router.push(returnTo);
-    setIsLoading(false);
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: data.email, password: data.password }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Login failed');
+      document.cookie = `session=${json.token}; path=/; max-age=604800`;
+      setAuth(json.user, json.token);
+      toast.success('Welcome back, Ambassador.');
+      router.push(returnTo);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Login failed';
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -256,11 +268,6 @@ export default function LoginPage() {
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: '0.25rem' }}>
               Sign in to your diplomatic workspace
             </p>
-          </div>
-
-          <div className="mb-5 px-4 py-3 rounded-[var(--radius-md)] text-sm"
-            style={{ background: 'var(--gold-100)', border: '1px solid var(--gold-400)', color: 'var(--gold-700)' }}>
-            <strong>Demo mode:</strong> any email &amp; password works
           </div>
 
           <Suspense>
