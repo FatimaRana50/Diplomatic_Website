@@ -59,6 +59,25 @@ router.get('/:id', requireAuth, async (req, res) => {
   }
 });
 
+// PATCH /api/documents/:id — update content
+router.patch('/:id', requireAuth, async (req, res) => {
+  const { content } = req.body;
+  if (!content) return res.status(400).json({ error: 'content is required' });
+
+  try {
+    const doc = await Document.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      { content },
+      { new: true }
+    );
+    if (!doc) return res.status(404).json({ error: 'Document not found' });
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Document update error:', err);
+    res.status(500).json({ error: 'Failed to update document' });
+  }
+});
+
 // DELETE /api/documents/:id
 router.delete('/:id', requireAuth, async (req, res) => {
   try {

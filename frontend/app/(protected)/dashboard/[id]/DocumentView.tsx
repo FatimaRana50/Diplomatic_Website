@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { useEffect } from 'react';
 import type { Document } from '@/types/document.types';
 import { useGeneratorStore } from '@/stores/generatorStore';
+import { useUpdateDocumentMutation } from '@/hooks/useDocuments';
 import Badge from '@/components/atoms/Badge';
 import OutputPanel from '@/components/organisms/OutputPanel';
 
@@ -25,6 +26,7 @@ interface DocumentViewProps {
 
 export default function DocumentView({ document }: DocumentViewProps) {
   const { setOutput, clearOutput } = useGeneratorStore();
+  const { mutateAsync: updateDocument } = useUpdateDocumentMutation(document.id as string);
 
   useEffect(() => {
     setOutput(document.content);
@@ -57,7 +59,7 @@ export default function DocumentView({ document }: DocumentViewProps) {
         </h1>
       </div>
 
-      <OutputPanel />
+      <OutputPanel onSave={updateDocument} />
     </div>
   );
 }

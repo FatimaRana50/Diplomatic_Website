@@ -1,7 +1,7 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
-import { apiClient } from '@/lib/apiClient';
+import { useAuthStore } from '@/stores/authStore';
 
 interface TranslatePayload {
   text: string;
@@ -15,11 +15,25 @@ interface TranslateResult {
 export function useTranslateMutation() {
   return useMutation<TranslateResult, Error, TranslatePayload>({
     mutationFn: async ({ text, targetLanguage }) => {
-      const res = await apiClient.post<TranslateResult>('/api/email/translate', {
-        text,
-        targetLanguage,
+      const token = useAuthStore.getState().token;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+      const res = await fetch(`${apiUrl}/api/email/translate`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ text, targetLanguage }),
       });
-      return res.data;
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Request failed: ${res.status}`);
+      }
+
+      return res.json();
     },
   });
 }

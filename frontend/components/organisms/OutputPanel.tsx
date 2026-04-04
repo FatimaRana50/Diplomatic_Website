@@ -88,9 +88,10 @@ function renderWithChips(text: string) {
 interface OutputPanelProps {
   readOnly?: boolean;
   initialContent?: string;
+  onSave?: (content: string) => void;
 }
 
-export default function OutputPanel({ readOnly = false, initialContent }: OutputPanelProps) {
+export default function OutputPanel({ readOnly = false, initialContent, onSave }: OutputPanelProps) {
   const { generatedOutput, isGenerating, editedOutput, setEditedOutput } =
     useGeneratorStore();
 
@@ -117,6 +118,7 @@ export default function OutputPanel({ readOnly = false, initialContent }: Output
   const saveEdit = () => {
     setEditedOutput(editValue);
     setIsEditing(false);
+    onSave?.(editValue);
   };
 
   const cancelEdit = () => setIsEditing(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/apiClient';
 import { useAuthStore } from '@/stores/authStore';
 import type { Document, PaginatedDocuments } from '@/types/document.types';
@@ -32,6 +32,23 @@ export function useDocument(id: string) {
       return res.data;
     },
     enabled: !!id && isAuthenticated,
+  });
+}
+
+export function useUpdateDocumentMutation(id: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (content: string) => {
+      const res = await apiClient.patch(`/api/documents/${id}`, { content });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['document', id] });
+      toast.success('Document saved');
+    },
+    onError: () => {
+      toast.error('Failed to save document');
+    },
   });
 }
 
