@@ -161,10 +161,9 @@ export default function HomePage() {
                         border: '1px solid rgba(232,184,58,0.3)',
                       }}
                     >
-                      {IconComp
-                        ? <IconComp size={18} style={{ color: 'var(--gold-400)' }} />
-                        : <FileText size={18} style={{ color: 'var(--gold-400)' }} />
-                      }
+                      <span style={{ color: 'var(--gold-400)' }}>
+                        {IconComp ? <IconComp size={18} /> : <FileText size={18} />}
+                      </span>
                     </div>
                   </div>
 
