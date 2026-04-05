@@ -19,7 +19,7 @@ export default async function ProtectedLayout({ children }: { children: React.Re
   const cookieStore = await cookies();
   const session = cookieStore.get('session')?.value;
 
-  if (!session || !isTokenValid(session)) redirect('/login');
+  if (!session || !isTokenValid(session)) redirect('/welcome');
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -15,7 +15,7 @@ export default function SiteHeader() {
   const handleLogout = () => {
     document.cookie = 'session=; path=/; max-age=0';
     clearAuth();
-    router.push('/login');
+    router.push('/welcome');
     toast.success('Logged out successfully');
   };
 

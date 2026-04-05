@@ -1,0 +1,72 @@
+<svg viewBox="0 0 900 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="900" height="200">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="50%" stop-color="#1a2e4a"/>
+      <stop offset="100%" stop-color="#0d1b2a"/>
+    </linearGradient>
+    <linearGradient id="connLine" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="rgba(212,160,23,0)"/>
+      <stop offset="10%" stop-color="rgba(212,160,23,0.6)"/>
+      <stop offset="90%" stop-color="rgba(212,160,23,0.6)"/>
+      <stop offset="100%" stop-color="rgba(212,160,23,0)"/>
+    </linearGradient>
+    <filter id="nodeglow">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="200" fill="url(#bg2)"/>
+  <!-- Dot grid -->
+  <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="12" cy="12" r="0.8" fill="rgba(255,255,255,0.04)"/>
+  </pattern>
+  <rect width="900" height="200" fill="url(#dots)"/>
+
+  <!-- Top gold line -->
+  <line x1="0" y1="0" x2="900" y2="0" stroke="url(#connLine)" stroke-width="2"/>
+  <!-- Bottom gold line -->
+  <line x1="0" y1="200" x2="900" y2="200" stroke="url(#connLine)" stroke-width="2"/>
+
+  <!-- Connecting dashed line between nodes -->
+  <line x1="130" y1="88" x2="770" y2="88" stroke="url(#connLine)" stroke-width="1.5" stroke-dasharray="6 5"/>
+
+  <!-- Steps -->
+  <!-- Step 1 -->
+  <circle cx="130" cy="88" r="40" fill="rgba(13,27,42,0.9)" stroke="rgba(212,160,23,0.45)" stroke-width="1.5"/>
+  <circle cx="130" cy="88" r="28" fill="rgba(212,160,23,0.1)"/>
+  <text x="130" y="93" text-anchor="middle" fill="rgba(212,160,23,0.95)" font-size="18" font-weight="700" font-family="monospace">01</text>
+  <text x="130" y="148" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="13" font-weight="600" font-family="sans-serif">Select Type</text>
+  <text x="130" y="165" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="sans-serif">Choose generator</text>
+  <!-- Arrow -->
+  <polygon points="178,84 190,88 178,92" fill="rgba(212,160,23,0.55)"/>
+
+  <!-- Step 2 -->
+  <circle cx="330" cy="88" r="40" fill="rgba(13,27,42,0.9)" stroke="rgba(212,160,23,0.45)" stroke-width="1.5"/>
+  <circle cx="330" cy="88" r="28" fill="rgba(212,160,23,0.1)"/>
+  <text x="330" y="93" text-anchor="middle" fill="rgba(212,160,23,0.95)" font-size="18" font-weight="700" font-family="monospace">02</text>
+  <text x="330" y="148" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="13" font-weight="600" font-family="sans-serif">Input Details</text>
+  <text x="330" y="165" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="sans-serif">Fill the form</text>
+  <polygon points="378,84 390,88 378,92" fill="rgba(212,160,23,0.55)"/>
+
+  <!-- Step 3 -->
+  <circle cx="570" cy="88" r="40" fill="rgba(13,27,42,0.9)" stroke="rgba(212,160,23,0.45)" stroke-width="1.5"/>
+  <circle cx="570" cy="88" r="28" fill="rgba(212,160,23,0.1)"/>
+  <text x="570" y="93" text-anchor="middle" fill="rgba(212,160,23,0.95)" font-size="18" font-weight="700" font-family="monospace">03</text>
+  <text x="570" y="148" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="13" font-weight="600" font-family="sans-serif">AI Drafts</text>
+  <text x="570" y="165" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="sans-serif">In seconds</text>
+  <polygon points="618,84 630,88 618,92" fill="rgba(212,160,23,0.55)"/>
+
+  <!-- Step 4 -->
+  <circle cx="770" cy="88" r="40" fill="rgba(212,160,23,0.15)" stroke="rgba(212,160,23,0.7)" stroke-width="2"/>
+  <circle cx="770" cy="88" r="28" fill="rgba(212,160,23,0.2)"/>
+  <text x="770" y="93" text-anchor="middle" fill="rgba(212,160,23,0.95)" font-size="18" font-weight="700" font-family="monospace">04</text>
+  <text x="770" y="148" text-anchor="middle" fill="rgba(255,255,255,0.85)" font-size="13" font-weight="600" font-family="sans-serif">Export</text>
+  <text x="770" y="165" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="11" font-family="sans-serif">.docx / .pdf</text>
+
+  <!-- Completion badge -->
+  <circle cx="770" cy="48" r="12" fill="rgba(212,160,23,0.9)"/>
+  <text x="770" y="53" text-anchor="middle" fill="#0d1b2a" font-size="14" font-weight="900">✓</text>
+</svg>
