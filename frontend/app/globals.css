@@ -32,10 +32,10 @@
   --info: #1A5B8F;
 
   /* Surfaces & text */
-  --surface: #F7F9FB;
-  --surface-2: #EEF2F6;
-  --border: #D4DCE6;
-  --border-light: #E8EDF3;
+  --surface: #F0F4F8;
+  --surface-2: #E4EBF2;
+  --border: #C8D4DF;
+  --border-light: #DDE6EE;
   --text-primary: #0D1B2A;
   --text-secondary: #4A6180;
   --text-muted: #8FA8C0;
@@ -52,9 +52,10 @@
   --radius-xl: 16px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(13, 27, 42, 0.08);
-  --shadow-md: 0 4px 12px rgba(13, 27, 42, 0.10);
-  --shadow-lg: 0 8px 32px rgba(13, 27, 42, 0.14);
+  --shadow-sm: 0 1px 4px rgba(13, 27, 42, 0.10);
+  --shadow-md: 0 4px 16px rgba(13, 27, 42, 0.13);
+  --shadow-lg: 0 8px 36px rgba(13, 27, 42, 0.18);
+  --shadow-card: 0 2px 8px rgba(13, 27, 42, 0.09), 0 0 0 1px rgba(13,27,42,0.04);
 }
 
 /* ─── Tailwind 4 Theme Extension ────────────────────────────────────── */
@@ -135,13 +136,19 @@
   h3 { font-size: 18px; line-height: 28px; font-weight: 600; font-family: var(--font-body); }
 }
 
-/* ─── Utility classes (outside @layer so they beat component styles) ── */
+/* ─── Selection ─────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(212, 160, 23, 0.2);
+  color: var(--navy-900);
+}
+
+/* ─── Utility classes ────────────────────────────────────────────────── */
 .label-caps {
-  font-size: 12px;
+  font-size: 11px;
   line-height: 16px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   font-family: var(--font-body);
 }
 
@@ -149,6 +156,16 @@
   font-family: var(--font-mono);
   font-size: 13px;
   line-height: 20px;
+}
+
+/* Gold accent divider line */
+.gold-divider {
+  display: block;
+  width: 44px;
+  height: 3px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, var(--gold-400), var(--gold-600));
+  margin-top: 12px;
 }
 
 /* ─── Focus Ring ────────────────────────────────────────────────────── */
@@ -187,16 +204,6 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shimmer 1.5s linear infinite;
-}
-
-/* Card hover ring */
-.card-hover {
-  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-}
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 0 1.5px var(--gold-400), var(--shadow-md);
-  border-color: var(--gold-400) !important;
 }
 
 /* ─── Blinking Cursor (streaming) ───────────────────────────────────── */

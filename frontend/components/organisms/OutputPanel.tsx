@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, Fragment } from 'react';
-import { Copy, Edit3, Languages, Download, Mail, RefreshCw, FileText, ChevronDown } from 'lucide-react';
+import { Copy, Edit3, Languages, Download, Mail, FileText, ChevronDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { useGeneratorStore } from '@/stores/generatorStore';
 import { useExportMutation } from '@/hooks/useExport';
@@ -126,13 +126,25 @@ export default function OutputPanel({ readOnly = false, initialContent, onSave }
   // ── Empty state ──────────────────────────────────────────────────────
   if (!isGenerating && !content) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 h-80 bg-white border border-dashed border-border rounded-[var(--radius-xl)] text-center p-8">
-        <div className="w-16 h-16 rounded-full bg-navy-050 flex items-center justify-center">
-          <FileText size={28} className="text-navy-200" />
+      <div
+        className="flex flex-col items-center justify-center gap-5 h-80 text-center p-8 rounded-[var(--radius-xl)]"
+        style={{ background: 'white', border: '1.5px dashed var(--border)', boxShadow: 'var(--shadow-sm)' }}
+      >
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center"
+          style={{
+            background: 'linear-gradient(135deg, var(--navy-800), var(--navy-700))',
+            boxShadow: '0 4px 12px rgba(13,27,42,0.2)',
+          }}
+        >
+          <FileText size={26} style={{ color: 'var(--gold-400)' }} />
         </div>
-        <div>
-          <p className="text-base font-medium text-text-secondary">Fill the form to generate</p>
-          <p className="text-sm text-text-muted mt-1">Your document will appear here</p>
+        <div className="flex flex-col gap-1.5">
+          <p className="text-base font-semibold text-navy-800">Ready to Generate</p>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            Complete the form and click{' '}
+            <span className="font-semibold" style={{ color: 'var(--gold-600)' }}>Generate Document</span>
+          </p>
         </div>
       </div>
     );
@@ -159,22 +171,49 @@ export default function OutputPanel({ readOnly = false, initialContent, onSave }
       <div className="bg-white border border-border rounded-[var(--radius-xl)] flex flex-col shadow-sm">
         {/* Action bar */}
         {!readOnly && (
-          <div className="flex items-center gap-1 px-4 py-3 border-b border-border-light flex-wrap">
-            <button
-              onClick={copy}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-text-secondary hover:text-navy-700 hover:bg-surface-2 rounded transition-colors"
-              aria-label="Copy document"
-            >
-              <Copy size={13} /> Copy
-            </button>
+          <div
+            className="flex items-center gap-2 px-4 py-3 border-b flex-wrap"
+            style={{ borderColor: 'var(--border-light)', background: 'var(--surface)' }}
+          >
+            {[
+              { label: 'Copy', icon: <Copy size={12} />, onClick: copy, ariaLabel: 'Copy document' },
+              { label: 'Translate', icon: <Languages size={12} />, onClick: () => setShowTranslation(!showTranslation), ariaLabel: 'Translate document' },
+              { label: 'Email', icon: <Mail size={12} />, onClick: () => setShowEmailModal(true), ariaLabel: 'Send via email' },
+            ].map(({ label, icon, onClick, ariaLabel }) => (
+              <button
+                key={label}
+                onClick={onClick}
+                aria-label={ariaLabel}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-[var(--radius-sm)] transition-all duration-150"
+                style={{
+                  color: 'var(--text-secondary)',
+                  background: 'white',
+                  border: '1px solid var(--border)',
+                  boxShadow: 'var(--shadow-sm)',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = 'var(--navy-800)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--navy-200)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)';
+                  (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
+                }}
+              >
+                {icon} {label}
+              </button>
+            ))}
 
             {!isEditing ? (
               <button
                 onClick={startEdit}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-text-secondary hover:text-navy-700 hover:bg-surface-2 rounded transition-colors"
                 aria-label="Edit document"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-[var(--radius-sm)] transition-all duration-150"
+                style={{ color: 'var(--text-secondary)', background: 'white', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--navy-800)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--navy-200)'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; }}
               >
-                <Edit3 size={13} /> Edit
+                <Edit3 size={12} /> Edit
               </button>
             ) : (
               <>
@@ -183,51 +222,41 @@ export default function OutputPanel({ readOnly = false, initialContent, onSave }
               </>
             )}
 
-            <button
-              onClick={() => setShowTranslation(!showTranslation)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-text-secondary hover:text-navy-700 hover:bg-surface-2 rounded transition-colors"
-              aria-label="Translate document"
-            >
-              <Languages size={13} /> Translate
-            </button>
-
             <div className="relative">
               <button
                 onClick={() => setShowDownloadMenu(!showDownloadMenu)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-text-secondary hover:text-navy-700 hover:bg-surface-2 rounded transition-colors"
                 aria-label="Download document"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-[var(--radius-sm)] transition-all duration-150"
+                style={{ color: 'var(--text-secondary)', background: 'white', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--navy-800)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--navy-200)'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)'; (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; }}
               >
-                <Download size={13} />
-                Download
-                <ChevronDown size={11} />
+                <Download size={12} /> Download <ChevronDown size={10} />
               </button>
               {showDownloadMenu && (
-                <div className="absolute top-full mt-1 left-0 bg-white border border-border rounded-[var(--radius-md)] shadow-md z-20 w-36">
+                <div
+                  className="absolute top-full mt-1.5 left-0 bg-white z-20 w-36 overflow-hidden"
+                  style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', boxShadow: 'var(--shadow-md)' }}
+                >
                   <button
                     onClick={async () => { await exportDocx(content); setShowDownloadMenu(false); }}
                     disabled={exportingDocx}
-                    className="w-full px-3 py-2 text-sm text-left text-text-primary hover:bg-surface-2 transition-colors disabled:opacity-50"
+                    className="w-full px-3 py-2 text-sm text-left hover:bg-surface transition-colors disabled:opacity-50"
+                    style={{ color: 'var(--text-primary)' }}
                   >
                     {exportingDocx ? 'Exporting...' : '.docx'}
                   </button>
                   <button
                     onClick={async () => { await exportPdf(content); setShowDownloadMenu(false); }}
                     disabled={exportingPdf}
-                    className="w-full px-3 py-2 text-sm text-left text-text-primary hover:bg-surface-2 transition-colors disabled:opacity-50"
+                    className="w-full px-3 py-2 text-sm text-left hover:bg-surface transition-colors disabled:opacity-50"
+                    style={{ color: 'var(--text-primary)' }}
                   >
                     {exportingPdf ? 'Exporting...' : '.pdf'}
                   </button>
                 </div>
               )}
             </div>
-
-            <button
-              onClick={() => setShowEmailModal(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-text-secondary hover:text-navy-700 hover:bg-surface-2 rounded transition-colors"
-              aria-label="Send document via email"
-            >
-              <Mail size={13} /> Email
-            </button>
           </div>
         )}
 
