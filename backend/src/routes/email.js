@@ -1,5 +1,5 @@
 const express = require('express');
-const { Resend } = require('@resend/node');
+const { Resend } = require('resend');
 const { optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
