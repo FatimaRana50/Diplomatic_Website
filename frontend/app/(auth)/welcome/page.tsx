@@ -401,10 +401,9 @@ export default function WelcomePage() {
               className="text-3xl sm:text-4xl lg:text-[3.25rem] lg:leading-[1.15] font-bold text-white leading-tight"
               style={{ fontFamily: 'var(--font-display)', letterSpacing: '-0.01em' }}
             >
-              Official correspondence,{' '}
+              Write like a diplomat.{' '}
               <br className="hidden sm:block" />
-              drafted with{' '}
-              <span style={{ color: 'var(--gold-400)' }}>precision.</span>
+              <span style={{ color: 'var(--gold-400)' }}>In seconds.</span>
             </motion.h1>
 
             <motion.div
@@ -416,13 +415,23 @@ export default function WelcomePage() {
             />
 
             <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.22 }}
+              className="mt-5 text-xs font-semibold uppercase tracking-[0.18em]"
+              style={{ color: 'var(--gold-500)' }}
+            >
+              Built for diplomats, not content creators.
+            </motion.p>
+
+            <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.25 }}
               className="mt-6 max-w-xl text-[15px] sm:text-base leading-relaxed"
               style={{ color: 'rgba(255,255,255,0.6)' }}
             >
-              Generate Note Verbales, diplomatic speeches, meeting briefs, and formal letters — structured to protocol standards for embassies, ministries, and international organisations.
+              Create protocol-compliant diplomatic documents used by embassies, ministries, and international organisations — in seconds.
             </motion.p>
 
             <motion.div
@@ -438,7 +447,7 @@ export default function WelcomePage() {
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 28px rgba(212,160,23,0.55)'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(212,160,23,0.4)'; }}
               >
-                Start Generating <ArrowRight size={14} />
+                Generate Your First Document <ArrowRight size={14} />
               </Link>
               <Link
                 href="#features"
@@ -447,7 +456,7 @@ export default function WelcomePage() {
                 onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'white'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.35)'; }}
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.7)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.18)'; }}
               >
-                Explore Tools
+                View Diplomatic Tools
               </Link>
             </motion.div>
 
