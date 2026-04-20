@@ -1,20 +1,8 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
+const { Resend } = require('@resend/node');
 const { optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
-
-function createTransporter() {
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT) || 587,
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
-}
 
 // POST /api/email
 router.post('/', optionalAuth, async (req, res) => {
@@ -24,14 +12,14 @@ router.post('/', optionalAuth, async (req, res) => {
     return res.status(400).json({ error: 'to, subject, and body are required' });
   }
 
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
+  if (!process.env.RESEND_API_KEY) {
     return res.status(503).json({ error: 'Email service not configured' });
   }
 
   try {
-    const transporter = createTransporter();
-    await transporter.sendMail({
-      from: `"${process.env.EMAIL_FROM_NAME || 'Diplomatic Platform'}" <${process.env.SMTP_USER}>`,
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    await resend.emails.send({
+      from: process.env.EMAIL_FROM || 'noreply@yourdomain.com',
       to,
       subject,
       text: body,
